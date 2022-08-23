@@ -103,50 +103,44 @@
       // 表单提交
       dataFormSubmit () {
 
-        
-        this.$router.push({
-                      name:'login'
-                    })
         this.$bus.$emit('autoLogin',this.dataForm.userName,this.dataForm.password)
-        // this.$refs['dataForm'].validate((valid) => {
-        //   if (valid) {
-        //     this.$http({
-        //       url: this.$http.adornUrl('/sys/user/save'),
-        //       method: 'post',
-        //       data: this.$http.adornData({
-        //         // 'userId': null,
-        //         'roleIdList': this.dataForm.roleIdList,
-        //         'username': this.dataForm.userName,
-        //         'password': this.dataForm.password,
-        //         'salt': this.dataForm.salt,
-        //         'email': this.dataForm.email,
-        //         'mobile': this.dataForm.mobile,
-        //         'status': 1
-        //       })
-        //     }).then(({data}) => {
-        //       console.log("data = ", data)
-        //       if (data && data.code === 0) {
-        //         this.$message({
-        //           message: '操作成功',
-        //           type: 'success',
-        //           duration: 1500,
-        //           onClose: () => {
-        //             // this.visible = false
-        //             // this.$emit('refreshDataList')
-        //             this.$bus.$emit('autoLogin',this.dataForm.userName,this.dataForm.password)
-        //             this.$router.push({
-        //               name:'login'
-        //             })
-                    
-        //           }
-        //         })
-        //       } else {
-        //         this.$message.error(data.msg)
-        //       }
-        //     })
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.$http({
+              url: this.$http.adornUrl('/sys/user/save'),
+              method: 'post',
+              data: this.$http.adornData({
+                // 'userId': null,
+                'roleIdList': this.dataForm.roleIdList,
+                'username': this.dataForm.userName,
+                'password': this.dataForm.password,
+                'salt': this.dataForm.salt,
+                'email': this.dataForm.email,
+                'mobile': this.dataForm.mobile,
+                'status': 1
+              })
+            }).then(({data}) => {
+              console.log("data = ", data)
+              if (data && data.code === 0) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success',
+                  duration: 1500,
+                  onClose: () => {
+                    sessionStorage.setItem("ewuhrfuewtgfuyieguiewfghwqhifq", this.dataForm.userName);
+                    sessionStorage.setItem("wefbuwegfweuygfyewutfuweuiweiufguewui", this.dataForm.password)
+                    this.$router.push({
+                        name:'login'
+                    })
+                  }
+                })
+              } else {
+                this.$message.error(data.msg)
+              }
+            })
 
-        //   }
-        // })
+          }
+        })
       },
 
       // 返回到login

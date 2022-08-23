@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
 // 挂载全局
 Vue.prototype.$http = httpRequest // ajax请求方法
 Vue.prototype.isAuth = isAuth     // 权限方法
-Vue.prototype.$EventBus = new Vue() //事件总线
+// Vue.prototype.$EventBus = new Vue() //事件总线
 
 // 保存整站vuex本地储存初始状态
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
@@ -37,7 +37,7 @@ new Vue({
   template: '<App/>',
   components: { App },
   // 安装全局事件总线
-  beforeCreate(){
-    Vue.prototype.$bus = this
-  }
+  // beforeCreate(){
+  //   Vue.prototype.$bus = this
+  // }
 })

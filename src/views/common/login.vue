@@ -18,7 +18,7 @@
             </p>
             <el-form v-if="isActive" :model="dataForm" ref="dataForm" label-width="80px" :rules="dataRule" @keyup.enter.native="dataFormSubmit()"  status-icon>
               <el-form-item prop="userName" label="账号：">
-                <el-input v-model="dataForm['userName']" placeholder="请输入账号" ></el-input>
+                <el-input v-model="dataForm.userName" placeholder="请输入账号" ></el-input>
                 <!-- dataForm.userName -->
               </el-form-item>
               <el-form-item prop="password" label="密码：">
@@ -111,8 +111,8 @@ export default {
 
 
       dataForm: {
-        userName: "111",
-        password: "111",
+        userName: "",
+        password: "",
         uuid: "",
         captcha: "",
       },
@@ -138,18 +138,6 @@ export default {
       captchaPath: "",
     };
   },
-  // computed:{
-  //   registName:{
-  //     deep:true,
-  //     get(){
-  //        return this.dataForm.userName
-  //     },
-  //     set(value){
-  //       this.dataForm.userName = value
-  //     }
-     
-  //   }
-  // },
   created() {
     this.getCaptcha();
   },
@@ -217,7 +205,6 @@ export default {
     accountLogin() {
       // 账号登录
       this.getCaptcha();
-      if(this.isRegist)
       this.isActive = true;
       this.isActiveIndex = 0;
     },
@@ -260,54 +247,30 @@ export default {
         `/captcha.jpg?uuid=${this.dataForm.uuid}`
       );
     },
-
-    // 注册后自动登录函数
-    autoAfterReg(username, password){
-      console.log("this = ", this)
-      console.log('成功拉') 
-      console.log("username = ", username)
-      console.log("psw = ", password )
-      console.log("data = ", this.dataForm)
-      // this.dataForm['userName'] = username;
-      // this.dataForm['password'] = password;
-      // this.$set(this.dataForm, "userName", username)
-      // console.log("data2 = ", this.dataForm)
-      // this.$set(this.dataForm,'userName', username)
-      // this.dataForm.password = password
-    }
   },
 
   mounted(){
     console.log("页面挂载")
-    this.$bus.$on('autoLogin', (username, password) => {
-      console.log("this = ", this)
-      console.log('成功拉') 
-      console.log("username = ", username)
-      console.log("psw = ", password )
-      console.log("data = ", this.dataForm)
-      // this.dataForm['userName'] = username;
-      // this.dataForm['password'] = password;
-      // this.$set(this.dataForm, "userName", username)
-      // console.log("data2 = ", this.dataForm)
-      // this.$set(this.dataForm,'userName', username)
-      // this.dataForm.password = password
-    })
-    // this.$set(this.dataForm, "userName", "444")
-    console.log('@@@',this.dataForm.userName)
-  },
+    // this.$bus.$on('autoLogin', this.autoAfterRegu)
+    let name = sessionStorage.getItem("ewuhrfuewtgfuyieguiewfghwqhifq");
+    let psw = sessionStorage.getItem("wefbuwegfweuygfyewutfuweuiweiufguewui")
+    if(name && psw){
+      this.dataForm.userName = name;
+      this.dataForm.password = psw;
+      // localStorage.clear();
+    } 
+    },
 
-  watch:{
-    dataForm:{
-      deep:true,
-      handler(newvalue, oldvalue) {
-        console.log("监听")
-        console.log("newvalue", newvalue)
-        console.log("oldvalue ", oldvalue)
-      }
-    }
-  }
-
-
+  // watch:{
+  //   dataForm:{
+  //     deep:true,
+  //     handler(newvalue, oldvalue) {
+  //       console.log("监听")
+  //       console.log("newvalue", newvalue)
+  //       console.log("oldvalue ", oldvalue)
+  //     }
+  //   }
+  // }
 };
 </script>
 
