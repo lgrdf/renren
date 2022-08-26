@@ -102,22 +102,19 @@
     methods: {
       // 表单提交
       dataFormSubmit () {
-
-        this.$bus.$emit('autoLogin',this.dataForm.userName,this.dataForm.password)
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
               url: this.$http.adornUrl('/sys/user/save'),
               method: 'post',
               data: this.$http.adornData({
-                // 'userId': null,
                 'roleIdList': this.dataForm.roleIdList,
                 'username': this.dataForm.userName,
                 'password': this.dataForm.password,
                 'salt': this.dataForm.salt,
                 'email': this.dataForm.email,
                 'mobile': this.dataForm.mobile,
-                'status': 1
+                'status': this.dataForm.status
               })
             }).then(({data}) => {
               console.log("data = ", data)

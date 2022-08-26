@@ -11,12 +11,19 @@ export default new Vuex.Store({
     common,
     user
   },
+  state:{
+    merchantId:0
+  },
   mutations: {
     // 重置vuex本地储存状态
     resetStore (state) {
       Object.keys(state).forEach((key) => {
         state[key] = cloneDeep(window.SITE_CONFIG['storeState'][key])
       })
+    },
+    //保存商家id
+    saveId(state,id){
+      state.merchantId = id
     }
   },
   strict: process.env.NODE_ENV !== 'production'

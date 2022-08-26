@@ -51,24 +51,22 @@
     </el-form-item>
     <!-- 店铺起送价 -->
     <el-form-item label="店铺起送价" prop="startPrice" >
-      <el-input v-model="baseForm.startPrice" style="width:200px"></el-input>
+      <el-input v-model="baseForm.startPrice" style="width:200px" type="number"></el-input>
     </el-form-item>
     <!-- 店铺起送价 -->
     <el-form-item label="店铺配送价" prop="shoppingPrice" >
-      <el-input v-model="baseForm.shoppingPrice" style="width:200px"></el-input>
+      <el-input v-model="baseForm.shoppingPrice" style="width:200px" type="number"></el-input>
     </el-form-item>
     <!-- 确定和取消 -->
     <el-form-item>
       <el-button @click="resetForm('baseForm')">取消</el-button>
-      <el-button type="primary" @click="submitForm()">确定</el-button>
+      <el-button type="primary" @click="submitForm('baseForm')">确定</el-button>
     </el-form-item>
 </el-form>
 
 </template>
 
 <script>
-import { getUUID } from "@/utils";
-
 import axios from "axios";
 
 
@@ -77,7 +75,7 @@ export default {
       return {  
         fileList:[],
         baseForm: {
-          id:'',
+          id:this.$store.state.merchantId,
           startTime:'',
           endTime:'',
           date:'',
@@ -87,10 +85,10 @@ export default {
         },
         rules: {
           startPrice: [
-            { required: true, message: '请输入起送价格', trigger: 'blur' }
+            { required: true, message: '请输入起送价格', trigger: 'blur' },
           ],
           shoppingPrice: [
-            { required: true, message: '请输入配送价格', trigger: 'blur' }
+            { required: true, message: '请输入配送价格', trigger: 'blur' },
           ],
           description: [
             { required: true, message: '请填写店铺描述', trigger: 'blur' }
@@ -99,7 +97,15 @@ export default {
       };
     },
     methods: {
-
+      //弹出消息提示框
+       open() {
+        this.$alert('信息修改成功', '信息修改消息提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            console.log(`action: ${ action }`)
+          }
+        });
+      },
       // 图片移除
       handleRemove(file) {
           this.fileList.splice(this.fileList.indexOf(file), 1);
@@ -120,10 +126,6 @@ export default {
         this.baseForm.startTime = picker[0]
         this.baseForm.endTime = picker[1]
       },
-      //  获取id
-      getId() {
-        this.baseForm.id = getUUID()
-      },
       // 预览图片
       handlePreview(file) {
         this.imageUrl = URL.createObjectURL(file.raw)
@@ -143,45 +145,88 @@ export default {
         return true;
       },
       // 提交表单数据
-      submitForm() {
-        this.getId()
-        const formData = new FormData();
-        this.fileList.forEach(file=>{
-          formData.append('logoImage',file.raw)
-        })
-        formData.append('id',this.baseForm.id)
-        formData.append('startTime',this.baseForm.startTime)
-        formData.append('endTime',this.baseForm.endTime)
-        formData.append('description',this.baseForm.description)
-        formData.append('startPrice',this.baseForm.startPrice)
-        formData.append('shippingPrice',this.baseForm.shoppingPrice)
-        axios({
-            method: "post",
-            url:"/business/base",
-            headers:{'Content-Type':'application/json'}, //设置请求头格式为json
-            data: formData
-        }).then(function (resp){
-          if(resp.data && resp.data.code ===0){
-            console.log("resp = ", resp)
-            this.resetForm('baseForm')    
-          }       
-        }).catch(function(error){
-          console.log(error)
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if(valid){
+            var _this = this
+            const formData = new FormData();
+            this.fileList.forEach(file=>{
+              formData.append('logoImages',file.raw)
+            })
+            formData.append('id',this.baseForm.id)
+            formData.append('startTime',this.baseForm.startTime)
+            formData.append('endTime',this.baseForm.endTime)
+            formData.append('description',this.baseForm.description)
+            formData.append('startPrice',this.baseForm.startPrice)
+            formData.append('shippingPrice',this.baseForm.shoppingPrice)
+            axios({
+                method: "post",
+                url:"/bash/business/edit",
+                headers:{'Content-Type':'application/json'}, //设置请求头格式为json
+                data: formData
+            }).then(function (resp){
+              if(resp.data && resp.data.code ===0){
+                console.log("resp = ", resp)
+                _this.open()
+                // _this.resetForm('baseForm')    
+              }       
+            }).catch(function(error){
+              console.log(error)
+            })
+        }
         })
       },
-      // httpRequest(params) {
-      //   this.logoImgFile = params.file
      
       // 提交后重置数据
       resetForm(formName) {
         this.$refs.upload.clearFiles()
         this.$refs[formName].resetFields();
         this.fileList = []
-        this.baseForm.id=''
+        this.baseForm.id=0
         this.baseForm.date = []
         this.baseForm.startTime = ''
         this.baseForm.endTime = ''
-      }
+      },
+    },
+    // mounted() {
+    //   var _this = this
+    //   axios({
+    //   url:`/bash/business/info/${_this.baseForm.id}`,
+    //   method:'get',
+    //   data:{'id':_this.baseForm.id}
+    //   }).then(function(res){
+    //     var obj = res.data
+    //     if(obj.business.startTime && obj.business.endTime && obj.business.description 
+    //     && obj.business.startPrice && obj.business.shippingPrice){
+    //       _this.$nextTick(()=>{
+    //          _this.baseForm.startTime = obj.business.startTime
+    //          _this.baseForm.endTime = obj.business.endTime
+    //          _this.baseForm.date = [obj.business.startTime,obj.business.endTime]
+    //          _this.baseForm.description = obj.business.description 
+    //          _this.baseForm.startPrice = obj.business.startPrice
+    //          _this.baseForm.shoppingPrice = obj.business.shippingPrice
+    //       })
+    //     }
+    //   })
+    // },
+    created(){
+      var _this = this
+      axios({
+        url:`/bash/business/info/${_this.baseForm.id}`,
+        method:'get',
+        data:{'id':_this.baseForm.id}
+      }).then(function(res){
+         var obj = res.data
+        if(obj.business.startTime && obj.business.endTime && obj.business.description 
+         && obj.business.startPrice && obj.business.shippingPrice){ 
+             _this.baseForm.startTime = obj.business.startTime
+             _this.baseForm.endTime = obj.business.endTime
+             _this.baseForm.date = [obj.business.startTime,obj.business.endTime]
+             _this.baseForm.description = obj.business.description 
+             _this.baseForm.startPrice = obj.business.startPrice
+             _this.baseForm.shoppingPrice = obj.business.shippingPrice
+        }
+       })
     }
   }
 </script>

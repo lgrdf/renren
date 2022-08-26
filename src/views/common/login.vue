@@ -143,19 +143,19 @@ export default {
   },
   methods: {
     tackBtn(){       //验证码倒数60秒
-              let time = 60;
-              let timer = setInterval(() => {
-                  if(time == 0){
-                      clearInterval(timer);
-                      this.valiBtn = '获取验证码';
-                      this.disabled = false;
-                  }else{
-                      this.disabled = true;
-                      this.valiBtn = time + '秒后重试';
-                      time--;
-                  }
-              }, 1000);
-        },
+          let time = 60;
+          let timer = setInterval(() => {
+              if(time == 0){
+                  clearInterval(timer);
+                  this.valiBtn = '获取验证码';
+                  this.disabled = false;
+              }else{
+                  this.disabled = true;
+                  this.valiBtn = time + '秒后重试';
+                  time--;
+              }
+          }, 1000);
+    },
     // 手机验证码登录
     smsFormSubmit() {
         if (this.tempVercode===this.loginForm.vercode) {
@@ -170,6 +170,7 @@ export default {
           }).then(({ data }) => {
             console.log(data);
             if (data && data.code === 0) {
+              this.$store.commit('saveId',data.id)
               this.$cookie.set("token", data.token);
               this.$router.replace({ name: "home" });
             } else {
@@ -187,7 +188,7 @@ export default {
     getVercode(phone){
       this.loginForm.uuid = getUUID();
       // this.$http({
-      //       url: this.$http.adornUrl(`/admin/send/${phone}`),
+      //       url: this.$http.adornUrl(`/send/${phone}`),
       //       method: "get",
       //     }).then(({ data }) => {
       //       console.log(data);
@@ -213,7 +214,7 @@ export default {
       this.isActive = false;
       this.isActiveIndex = 1;
     },
-    // 提交表单
+    // 提交表单(账号密码登录)
     dataFormSubmit() {
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
@@ -228,10 +229,12 @@ export default {
               choice: 1
             }),
           }).then(({ data }) => {
-            console.log(data);
             if (data && data.code === 0) {
+              this.$store.commit('saveId',data.id)
               this.$cookie.set("token", data.token);
               this.$router.replace({ name: "home" });
+              sessionStorage.setItem("ewuhrfuewtgfuyieguiewfghwqhifq",this.dataForm.userName);
+              sessionStorage.setItem("wefbuwegfweuygfyewutfuweuiweiufguewui",this.dataForm.password)
             } else {
               this.getCaptcha();
               this.$message.error(data.msg);
@@ -250,27 +253,14 @@ export default {
   },
 
   mounted(){
-    console.log("页面挂载")
-    // this.$bus.$on('autoLogin', this.autoAfterRegu)
     let name = sessionStorage.getItem("ewuhrfuewtgfuyieguiewfghwqhifq");
     let psw = sessionStorage.getItem("wefbuwegfweuygfyewutfuweuiweiufguewui")
     if(name && psw){
       this.dataForm.userName = name;
       this.dataForm.password = psw;
-      // localStorage.clear();
+      // sessionStorage.clear();
     } 
-    },
-
-  // watch:{
-  //   dataForm:{
-  //     deep:true,
-  //     handler(newvalue, oldvalue) {
-  //       console.log("监听")
-  //       console.log("newvalue", newvalue)
-  //       console.log("oldvalue ", oldvalue)
-  //     }
-  //   }
-  // }
+  },
 };
 </script>
 
