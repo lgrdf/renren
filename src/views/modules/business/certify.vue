@@ -86,6 +86,7 @@
 import axios from "axios";
 import { isPhone,isMobile } from '@/utils/validate'
 import {region} from '@/assets/region'
+
 export default {
   data() {
       // 定义电话号码规则
@@ -224,20 +225,20 @@ export default {
             fd.append('tel',this.certifyForm.tel)
             fd.append('address',this.certifyForm.address)
             fd.append('detailAddress',this.certifyForm.detailAddress)
-            // axios({
-            //   url:'/bash/business/auth',
-            //   method:'post',
-            //   headers:{'Content-Type':'application/json'}, //设置请求头格式为json
-            //   data:fd 
-            // }).then(function(res){
-            //   if(res.data && res.data.code === 0){
-            //     console.log('提交成功')
-                  //  _this.open()
-            //     _this.resetForm('certifyForm')
-            //   }
-            // }).catch(function(err){
-            //   console.log('提交失败'+err)
-            // })
+            axios({
+              url:'/bash/business/auth',
+              method:'post',
+              headers:{'Content-Type':'application/json'}, //设置请求头格式为json
+              data:fd 
+            }).then(function(res){
+              if(res.data && res.data.code === 0){
+                console.log('提交成功')
+                _this.open()
+                // _this.resetForm('certifyForm')
+              }
+            }).catch(function(err){
+              console.log('提交失败'+err)
+            })
             
           } else {
             console.log('error submit!!');
@@ -250,10 +251,30 @@ export default {
         this.$refs[formName].resetFields();
         this.idCardImageList = []
         this.licenseImage = []
-        this.certifyForm.id = 0
         this.value = []
         this.certifyForm.address = ''
-      }
+      },
+      // 获取信息
+      getData(){
+        var _this = this
+        axios({
+          url:`http://localhost:80/api/bash/business/info/${_this.certifyForm.id}`,
+          method:'get',
+        }).then(function(res){
+           var obj = res.data
+           if(obj.business.name && obj.business.address && obj.business.detailAddress 
+            && obj.business.tel){ 
+               _this.certifyForm.name = obj.business.name
+               _this.certifyForm.address = obj.business.address
+               _this.value = obj.business.address.split(' ')
+               _this.certifyForm.detailAddress = obj.business.detailAddress
+               _this.certifyForm.tel = obj.business.tel
+          }
+         })
+        }
+    },
+    created(){
+      this.getData()
     }
   }
 </script>

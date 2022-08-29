@@ -182,51 +182,32 @@ export default {
         this.$refs.upload.clearFiles()
         this.$refs[formName].resetFields();
         this.fileList = []
-        this.baseForm.id=0
         this.baseForm.date = []
         this.baseForm.startTime = ''
         this.baseForm.endTime = ''
       },
-    },
-    // mounted() {
-    //   var _this = this
-    //   axios({
-    //   url:`/bash/business/info/${_this.baseForm.id}`,
-    //   method:'get',
-    //   data:{'id':_this.baseForm.id}
-    //   }).then(function(res){
-    //     var obj = res.data
-    //     if(obj.business.startTime && obj.business.endTime && obj.business.description 
-    //     && obj.business.startPrice && obj.business.shippingPrice){
-    //       _this.$nextTick(()=>{
-    //          _this.baseForm.startTime = obj.business.startTime
-    //          _this.baseForm.endTime = obj.business.endTime
-    //          _this.baseForm.date = [obj.business.startTime,obj.business.endTime]
-    //          _this.baseForm.description = obj.business.description 
-    //          _this.baseForm.startPrice = obj.business.startPrice
-    //          _this.baseForm.shoppingPrice = obj.business.shippingPrice
-    //       })
-    //     }
-    //   })
-    // },
-    created(){
-      var _this = this
-      axios({
-        url:`/bash/business/info/${_this.baseForm.id}`,
-        method:'get',
-        data:{'id':_this.baseForm.id}
-      }).then(function(res){
-         var obj = res.data
-        if(obj.business.startTime && obj.business.endTime && obj.business.description 
-         && obj.business.startPrice && obj.business.shippingPrice){ 
-             _this.baseForm.startTime = obj.business.startTime
-             _this.baseForm.endTime = obj.business.endTime
-             _this.baseForm.date = [obj.business.startTime,obj.business.endTime]
-             _this.baseForm.description = obj.business.description 
-             _this.baseForm.startPrice = obj.business.startPrice
-             _this.baseForm.shoppingPrice = obj.business.shippingPrice
+      // 获取信息
+      getData(){
+        var _this = this
+        axios({
+          url:`http://localhost:80/api/bash/business/info/${_this.baseForm.id}`,
+          method:'get',
+        }).then(function(res){
+           var obj = res.data
+           if(obj.business.startTime && obj.business.endTime && obj.business.description 
+            && obj.business.startPrice && obj.business.shippingPrice){ 
+               _this.baseForm.startTime = obj.business.startTime
+               _this.baseForm.endTime = obj.business.endTime
+               _this.baseForm.date = [obj.business.startTime,obj.business.endTime]
+               _this.baseForm.description = obj.business.description 
+               _this.baseForm.startPrice = obj.business.startPrice
+               _this.baseForm.shoppingPrice = obj.business.shippingPrice
+          }
+         })
         }
-       })
+    },
+    created(){
+     this.getData()
     }
   }
 </script>

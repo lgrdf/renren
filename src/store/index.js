@@ -12,7 +12,7 @@ export default new Vuex.Store({
     user
   },
   state:{
-    merchantId:0
+    merchantId: +JSON.parse(sessionStorage.getItem('wuehhssyhdinfo')) || 0
   },
   mutations: {
     // 重置vuex本地储存状态
@@ -24,6 +24,7 @@ export default new Vuex.Store({
     //保存商家id
     saveId(state,id){
       state.merchantId = id
+      sessionStorage.setItem('wuehhssyhdinfo',id)
     }
   },
   strict: process.env.NODE_ENV !== 'production'

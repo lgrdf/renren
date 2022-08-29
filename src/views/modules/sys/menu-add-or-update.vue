@@ -12,6 +12,7 @@
       <el-form-item :label="dataForm.typeList[dataForm.type] + '名称'" prop="name">
         <el-input v-model="dataForm.name" :placeholder="dataForm.typeList[dataForm.type] + '名称'"></el-input>
       </el-form-item>
+
       <el-form-item label="上级菜单" prop="parentName">
         <el-popover
           ref="menuListPopover"
@@ -28,6 +29,7 @@
             :expand-on-click-node="false">
           </el-tree>
         </el-popover>
+        
         <el-input v-model="dataForm.parentName" v-popover:menuListPopover :readonly="true" placeholder="点击选择上级菜单" class="menu-list__input"></el-input>
       </el-form-item>
       <el-form-item v-if="dataForm.type === 1" label="菜单路由" prop="url">
