@@ -75,10 +75,10 @@ export default {
       },
       dataRule:{
         name: [
-          { required: true, message: '种类名称不能为空', trigger: 'blur' }
+          { required: true, message: '菜品名称不能为空', trigger: 'blur' }
         ],
         description:[
-          { required: true, message: '种类描述不能为空', trigger: 'blur'}
+          { required: true, message: '菜品描述不能为空', trigger: 'blur'}
         ],
         price: [
           { required: true, message: '请输入价格', trigger: 'blur' },
@@ -111,9 +111,11 @@ export default {
             var _this = this
             const fd = new FormData()
             this.imageList.forEach(file=> {
-              fd.append('image',file.raw)
+              fd.append('dishImages',file.raw)
             })
-            fd.append('id',this.dishForm.id || undefined)
+            if(this.dishForm.id){
+               fd.append('id',this.dishForm.id)
+            }
             fd.append('businessId',this.dishForm.businessId)
             fd.append('categoryId',this.dishForm.categoryId)
             fd.append('name',this.dishForm.name)
@@ -127,7 +129,7 @@ export default {
             }).then(function(res) {
               if (res.data && res.data.code === 0) {
                 _this.$message({
-                  message: '新增菜品成功',
+                  message: `${!_this.dishForm.id?'新增' : '修改'}菜品分类成功`,
                   type: 'success',
                   duration: 1500,
                   onClose: () => {

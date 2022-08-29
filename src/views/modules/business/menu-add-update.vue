@@ -81,7 +81,7 @@ export default {
             }).then(function(res) {
               if (res.data && res.data.code === 0) {
                 _this.$message({
-                  message: '创建成功',
+                  message: `${!_this.categoryForm.id?'创建' : '修改'}菜品分类成功`,
                   type: 'success',
                   duration: 1500,
                   onClose: () => {

@@ -226,7 +226,7 @@ export default {
             fd.append('address',this.certifyForm.address)
             fd.append('detailAddress',this.certifyForm.detailAddress)
             axios({
-              url:'/bash/business/auth',
+              url:'http://localhost:80/api/bash/business/auth',
               method:'post',
               headers:{'Content-Type':'application/json'}, //设置请求头格式为json
               data:fd 

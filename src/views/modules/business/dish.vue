@@ -34,10 +34,9 @@
         align="center"
         label="菜品图片">
         <template slot-scope="scope">
-           <img class="el-upload-list__item-thumbnail" :src="scope.row.image" alt="">
+           <img class="el-upload-list__item-thumbnail imag" :src="scope.row.image" alt="" width="150px" height="150px">
         </template>
       </el-table-column>
-
       <el-table-column
         prop="createDateTime"
         header-align="center"
@@ -64,8 +63,8 @@
         align="center"
         label="状态">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status === 1" size="mini" type="success" @click="refreshStatus(scope.row.id,scope.row.status)">上架</el-button>
-          <el-button v-else-if="scope.row.status === 0" size="mini" type="danger" @click="refreshStatus(scope.row.id,scope.row.status)">下架</el-button>
+          <el-button v-if="scope.row.status === 1" size="mini" type="success" @click="refreshStatus(scope.row.id,0)">上架</el-button>
+          <el-button v-else-if="scope.row.status === 0" size="mini" type="danger" @click="refreshStatus(scope.row.id,1)">下架</el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -111,74 +110,7 @@ export default {
   data() {
     return {
       dishForm: {},
-      dataList: [],
-    //   data: [
-    //     {
-    //         "dishList": [
-    //             {
-    //                 "id": 1,
-    //                 "businessId": 31,
-    //                 "categoryId": 1,
-    //                 "name": "重庆小面",
-    //                 "description": "香辣",
-    //                 "createDateTime": "2022-08-20T01:37:14.000+0000",
-    //                 "updateDateTime": "2022-08-20T01:37:16.000+0000",
-    //                 "price": 20,
-    //                 "image": null,
-    //                 "status": 1,
-    //                 "isDeleted": 0
-    //             }
-    //         ],
-    //         "category": {
-    //             "id": 12,
-    //             "businessId": 31,
-    //             "name": "1",
-    //             "updateDateTime": "2022-08-19T10:49:07.000+0000",
-    //             "description": "1",
-    //             "createDateTime": "2022-08-19T10:49:10.000+0000",
-    //             "isDeleted": 0
-    //         }
-    //     },
-    //     {
-    //         "dishList": [
-    //             {
-    //                 "id": 22,
-    //                 "businessId": 31,
-    //                 "categoryId": 2,
-    //                 "name": "酸辣土豆",
-    //                 "description": "香辣",
-    //                 "createDateTime": "2022-08-17T05:31:50.000+0000",
-    //                 "updateDateTime": "2022-08-25T05:31:52.000+0000",
-    //                 "price": 10,
-    //                 "image": null,
-    //                 "status": 0,
-    //                 "isDeleted": 0
-    //             },
-    //             {
-    //                 "id": 23,
-    //                 "businessId": 31,
-    //                 "categoryId": 2,
-    //                 "name": "麻辣土豆",
-    //                 "description": "香辣",
-    //                 "createDateTime": "2022-08-17T05:31:50.000+0000",
-    //                 "updateDateTime": "2022-08-25T05:31:52.000+0000",
-    //                 "price": 10,
-    //                 "image": null,
-    //                 "status": 1,
-    //                 "isDeleted": 0
-    //             }
-    //         ],
-    //         "category": {
-    //             "id": 2,
-    //             "businessId": 31,
-    //             "name": "1",
-    //             "updateDateTime": "2022-08-22T05:32:30.000+0000",
-    //             "description": "1",
-    //             "createDateTime": "2022-08-22T05:32:33.000+0000",
-    //             "isDeleted": 0
-    //         }
-    //     }
-    // ],
+      dataList: [], //接收转换后数据
       addMenuVisible: false, //是否显示菜品分类弹窗,
       addDishVisible:false, //是否显示菜品弹窗
       
@@ -283,7 +215,7 @@ export default {
     refreshStatus(dishId,status){
       var _this = this
       axios({
-        url:'http://localhost:80/api/dish/dish/update',
+        url:'http://localhost:80/api/dish/dish/changeStatus',
         method:'post',
         data:{
           'id':dishId,
@@ -299,14 +231,13 @@ export default {
     },
 
     //获取数据列表
-    getDataList() {
-      
+    getDataList() {   
       // this.dataList = this.myTrans(this.data)
       var _this = this
       axios({
         url:'http://localhost:80/api/dish/category/list',
         method:'get',
-        data:{'id':_this.$store.state.merchantId}
+        params:{'businessId':_this.$store.state.merchantId}
       }).then(function(res){
         _this.dataList = _this.myTrans(res.data.data);
       }).catch(function(err){
@@ -318,6 +249,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  .imag {
+    max-width: 90%;
+    height: auto;
+  }
 
 </style>
+
