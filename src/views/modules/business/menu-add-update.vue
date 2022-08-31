@@ -93,16 +93,6 @@ export default {
                 _this.$message.error(res.data.msg)
               }
             })
-            // this.$message({
-            //   message: '创建成功',
-            //       type: 'success',
-            //       duration: 1500,
-            //       onClose: () => {
-            //       this.visible = false
-            //       this.$emit('refreshDataList')
-            //       }
-
-            // })
           }
         })
     }

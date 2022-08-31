@@ -143,16 +143,6 @@ export default {
             }).catch(function(err){
               console.log(err)
             })
-            // this.$message({
-            //   message: '新增菜品成功',
-            //       type: 'success',
-            //       duration: 1500,
-            //       onClose: () => {
-            //       this.visible = false
-            //       this.$emit('refreshList')
-            //       }
-
-            // })
           }
         })
     },

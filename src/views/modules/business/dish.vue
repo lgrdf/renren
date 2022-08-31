@@ -34,7 +34,7 @@
         align="center"
         label="菜品图片">
         <template slot-scope="scope">
-           <img class="el-upload-list__item-thumbnail imag" :src="scope.row.image" alt="" width="150px" height="150px">
+           <img v-if="scope.row.image!=null"  class="el-upload-list__item-thumbnail imag" :src="scope.row.image" alt="" width="150px" height="150px">
         </template>
       </el-table-column>
       <el-table-column
@@ -232,7 +232,6 @@ export default {
 
     //获取数据列表
     getDataList() {   
-      // this.dataList = this.myTrans(this.data)
       var _this = this
       axios({
         url:'http://localhost:80/api/dish/category/list',
