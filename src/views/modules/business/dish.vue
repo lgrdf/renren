@@ -5,6 +5,9 @@
       <el-form-item>
         <el-button type="primary" @click="addorUpdateMenu()">新增菜品分类</el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="exportData()">导出excel</el-button>
+      </el-form-item>
     </el-form>
     <!--菜单列表  -->
     <el-table
@@ -243,6 +246,14 @@ export default {
         console.log(err)
       })
     },
+    //导出excel功能
+    exportData() {
+      var _this = this
+      axios({
+        url: `http://ip地址/api/dish/category/excelDownload/${_this.$store.state.merchantId}`,
+        method: 'get'
+      })
+    }
 
   }
 }
