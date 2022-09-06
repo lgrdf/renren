@@ -179,7 +179,7 @@ export default {
     },
     initWebSocket() {
       //初始化weosocket
-      const wsuri = "ws://localhost:8080/api/websocket/100";
+      const wsuri = "ws://localhost:9000/api/websocket/100";
       this.websock = new WebSocket(wsuri);
       // 客户端接收服务端数据时触发
       this.websock.onmessage = this.websocketonmessage;
@@ -203,6 +203,8 @@ export default {
 
     // 客户端接收服务端数据时触发
     websocketonmessage(e) {
+      console.log(e)
+      console.log(e.data)
       if (e.data.indexOf("订单") != -1) {
         this.businessMsg(e.data);
         const promise = this.$refs.audioTip.play();

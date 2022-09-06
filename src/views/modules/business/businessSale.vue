@@ -125,83 +125,83 @@ export default {
     console.log(this.saleTable.startDate,this.saleTable.endDate,'111')
     var _this = this
     //获取服务器数据后更新数据
-     axios({
-      url: 'http://localhost:80/api/bash/businesssale/data',
-      method: 'get',
-      params: {
-        'businessId': _this.saleTable.businessId,
-        'startDate': _this.saleTable.startDate,
-        'endDate': _this.saleTable.endDate
-      }
-     }).then(function(res){
-      if(res.data && res.data.code === 0) {
-        _this.saleData = res.data.saleData
-      }
-     }).catch(function(err){
-      console.log(err)
-     })
-    // _this.saleData = [
-    // {
-    //         "businessId": 10,
-    //         "sale": 60.19,
-    //         "dayTime": "2022-08-31T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 83.47,
-    //         "dayTime": "2022-09-01T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 53.26,
-    //         "dayTime": "2022-09-02T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 3.9,
-    //         "dayTime": "2022-09-03T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 35.53,
-    //         "dayTime": "2022-09-04T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 99.37,
-    //         "dayTime": "2022-09-05T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 65.4,
-    //         "dayTime": "2022-09-06T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 59.87,
-    //         "dayTime": "2022-09-07T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 93.25,
-    //         "dayTime": "2022-09-08T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "businessId": 10,
-    //         "sale": 24.45,
-    //         "dayTime": "2022-09-09T16:00:00.000+0000",
-    //         "isDeleted": 0
-    //     }
-    // ]
+    //  axios({
+    //   url: 'http://localhost:80/api/bash/businesssale/data',
+    //   method: 'get',
+    //   params: {
+    //     'businessId': _this.saleTable.businessId,
+    //     'startDate': _this.saleTable.startDate,
+    //     'endDate': _this.saleTable.endDate
+    //   }
+    //  }).then(function(res){
+    //   if(res.data && res.data.code === 0) {
+    //     _this.saleData = res.data.saleData
+    //   }
+    //  }).catch(function(err){
+    //   console.log(err)
+    //  })
+    _this.saleData = [
+    {
+            "businessId": 10,
+            "sale": 60.19,
+            "dayTime": "2022-08-31T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 83.47,
+            "dayTime": "2022-09-01T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 53.26,
+            "dayTime": "2022-09-02T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 3.9,
+            "dayTime": "2022-09-03T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 35.53,
+            "dayTime": "2022-09-04T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 99.37,
+            "dayTime": "2022-09-05T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 65.4,
+            "dayTime": "2022-09-06T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 59.87,
+            "dayTime": "2022-09-07T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 93.25,
+            "dayTime": "2022-09-08T16:00:00.000+0000",
+            "isDeleted": 0
+        },
+        {
+            "businessId": 10,
+            "sale": 24.45,
+            "dayTime": "2022-09-09T16:00:00.000+0000",
+            "isDeleted": 0
+        }
+    ]
     this.update()
     },
     // 处理图表数据

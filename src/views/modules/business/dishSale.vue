@@ -132,93 +132,93 @@ export default {
     console.log(this.saleTable.startDate,this.saleTable.endDate)
     var _this = this
     //获取服务器数据后更新数据
-     axios({
-      url: 'http://localhost:80/api/dish/dishsale/data',
-      method: 'get',
-      params: {
-        'businessId': _this.saleTable.businessId,
-        'startDate': _this.saleTable.startDate,
-        'endDate': _this.saleTable.endDate
-      }
-     }).then(function(res){
-      if(res.data && res.data.code === 0) {
-        _this.dishData = res.data.dishData
-      }
-     }).catch(function(err){
-      console.log(err)
-     })
-    // _this.dishData = [
-    //     {
-    //         "dishName": "23",
-    //         "dishId": 23,
-    //         "sale": 570,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "17",
-    //         "dishId": 17,
-    //         "sale": 496,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "21",
-    //         "dishId": 21,
-    //         "sale": 491,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "11",
-    //         "dishId": 11,
-    //         "sale": 473,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "18",
-    //         "dishId": 18,
-    //         "sale": 463,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "12",
-    //         "dishId": 12,
-    //         "sale": 441,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "16",
-    //         "dishId": 16,
-    //         "sale": 438,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "20",
-    //         "dishId": 20,
-    //         "sale": 437,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "13",
-    //         "dishId": 13,
-    //         "sale": 428,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "dishName": "24",
-    //         "dishId": 24,
-    //         "sale": 367,
-    //         "dayTime": null,
-    //         "isDeleted": 0
-    //     }
-    // ]
+    //  axios({
+    //   url: 'http://localhost:80/api/dish/dishsale/data',
+    //   method: 'get',
+    //   params: {
+    //     'businessId': _this.saleTable.businessId,
+    //     'startDate': _this.saleTable.startDate,
+    //     'endDate': _this.saleTable.endDate
+    //   }
+    //  }).then(function(res){
+    //   if(res.data && res.data.code === 0) {
+    //     _this.dishData = res.data.dishData
+    //   }
+    //  }).catch(function(err){
+    //   console.log(err)
+    //  })
+    _this.dishData = [
+        {
+            "dishName": "23",
+            "dishId": 23,
+            "sale": 570,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "17",
+            "dishId": 17,
+            "sale": 496,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "21",
+            "dishId": 21,
+            "sale": 491,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "11",
+            "dishId": 11,
+            "sale": 473,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "18",
+            "dishId": 18,
+            "sale": 463,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "12",
+            "dishId": 12,
+            "sale": 441,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "16",
+            "dishId": 16,
+            "sale": 438,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "20",
+            "dishId": 20,
+            "sale": 437,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "13",
+            "dishId": 13,
+            "sale": 428,
+            "dayTime": null,
+            "isDeleted": 0
+        },
+        {
+            "dishName": "24",
+            "dishId": 24,
+            "sale": 367,
+            "dayTime": null,
+            "isDeleted": 0
+        }
+    ]
     //销售量按降序排序
     this.dishData.sort((a,b)=>{
       return b.sale - a.sale

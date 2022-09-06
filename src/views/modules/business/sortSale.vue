@@ -139,43 +139,43 @@ export default {
     console.log(this.saleTable.startDate,this.saleTable.endDate)
     var _this = this
     //获取服务器数据后更新数据
-     axios({
-      url: 'http://localhost:80/api/dish/category/data',
-      method: 'get',
-      params: {
-        'businessId': _this.saleTable.businessId,
-        'startDate': _this.saleTable.startDate,
-        'endDate': _this.saleTable.endDate
-      }
-     }).then(function(res){
-      if(res.data && res.data.code === 0) {
-        _this.categoryData = res.data.categoryData
-      }
-     }).catch(function(err){
-      console.log(err)
-     })
-    // _this.categoryData = [
-    //     {
-    //         "id": 8,
-    //         "businessId": 8,
-    //         "name": "奶茶",
-    //         "updateDateTime": "2022-09-01T03:52:29.000+0000",
-    //         "description": "奶茶分类1",
-    //         "createDateTime": "2022-08-28T23:08:54.000+0000",
-    //         "categoryMoney": 1450.2,
-    //         "isDeleted": 0
-    //     },
-    //     {
-    //         "id": 9,
-    //         "businessId": 8,
-    //         "name": "堂食",
-    //         "updateDateTime": "2022-08-28T23:10:28.000+0000",
-    //         "description": "堂食总类1",
-    //         "createDateTime": "2022-08-28T23:10:28.000+0000",
-    //         "categoryMoney": 133869.4,
-    //         "isDeleted": 0
-    //     }
-    // ]
+    //  axios({
+    //   url: 'http://localhost:80/api/dish/category/data',
+    //   method: 'get',
+    //   params: {
+    //     'businessId': _this.saleTable.businessId,
+    //     'startDate': _this.saleTable.startDate,
+    //     'endDate': _this.saleTable.endDate
+    //   }
+    //  }).then(function(res){
+    //   if(res.data && res.data.code === 0) {
+    //     _this.categoryData = res.data.categoryData
+    //   }
+    //  }).catch(function(err){
+    //   console.log(err)
+    //  })
+    _this.categoryData = [
+        {
+            "id": 8,
+            "businessId": 8,
+            "name": "奶茶",
+            "updateDateTime": "2022-09-01T03:52:29.000+0000",
+            "description": "奶茶分类1",
+            "createDateTime": "2022-08-28T23:08:54.000+0000",
+            "categoryMoney": 1450.2,
+            "isDeleted": 0
+        },
+        {
+            "id": 9,
+            "businessId": 8,
+            "name": "堂食",
+            "updateDateTime": "2022-08-28T23:10:28.000+0000",
+            "description": "堂食总类1",
+            "createDateTime": "2022-08-28T23:10:28.000+0000",
+            "categoryMoney": 133869.4,
+            "isDeleted": 0
+        }
+    ]
     this.update()
     },
     // 处理图表数据

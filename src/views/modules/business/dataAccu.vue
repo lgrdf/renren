@@ -51,9 +51,6 @@ export default {
 </script>
 
 <style scoped>
-  .bar,.business {
-   
-  }
   .container {
     display: flex;
     padding-top: 20px;

@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="mod-home">
     <h3>项目介绍</h3>
     
@@ -14,9 +14,12 @@
   .mod-home {
     line-height: 1.5;
   }
-</style> -->
+</style>
 
-<template>
+
+<!--更改  -->
+
+<!-- <template>
     
 </template>
 
@@ -153,7 +156,7 @@
   .mod-home {
     line-height: 1.5;
   }
-</style>
+</style> -->
 
 
 
