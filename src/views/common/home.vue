@@ -1,162 +1,202 @@
 <template>
   <div class="mod-home">
-    <h3>项目介绍</h3>
+		<div>
+			<h3>订单接收</h3>
+		</div>
+		<div class="container">
+			<!-- 外卖 -->
+			<div class="takeout" >
+				<el-card class="box-card" v-for="(item,index) in outArr" :key="index">
+					<div slot="header" class="clearfix">
+						<span v-if="!item.unfold"><img src="../../assets/img/unfold.png" alt="" width="35px" height="35px"></span>
+						<span v-if="item.unfold"><img src="../../assets/img/fold.png" alt="" width="35px" height="35px"></span>
+  				  <span>外卖订单{{index}}</span>
+						<el-button style="float: right;" type="text" @click="confirmOut(index)">确认订单</el-button>
+  				</div>
+					<div class="content" v-if="item.unfold">
+						<div class="text ite">
+							商家名称:{{item.businessName}}
+  					</div>
+						<div class="text ite">
+							菜品名称:{{item.dishList.dishName}}
+  					</div>
+						<div class="text ite">
+							菜品份数:{{item.dishList.count}}
+  					</div>
+						<div class="text ite">
+							该菜品总价:{{item.dishList.totalPrice}}
+  					</div>
+						<div class="text ite">
+							打包价格:{{item.packagePrice}}
+  					</div>
+						<div class="text ite">
+							配送费:{{item.postPrice}}
+  					</div>
+						<div class="text ite">
+							优惠价格:{{item.discountPrice}}
+  					</div>
+						<div class="text ite">
+							用户付款:{{item.payPrice}}
+  					</div>
+						<div class="text ite">
+							支付时间:{{item.payDateTime}}
+  					</div>
+					</div>
+				</el-card>
+		  </div>
+		  <!-- 堂食 -->
+		  <div class="eatin">
+		  	<el-card class="box-card" v-for="(item,index) in eatinArr" :key="index">
+  				<div slot="header" class="clearfix">
+						<span v-if="!item.unfold" @click="item.unfold = !item.unfold"><img src="../../assets/img/unfold.png" alt="" width="35px" height="35px"></span>
+						<span v-if="item.unfold" @click="item.unfold = !item.unfold"><img src="../../assets/img/fold.png" alt="" width="35px" height="35px"></span>
+  				  <span>堂食订单{{index}}</span>
+						<el-button style="float: right;" type="text" @click="confirmOrder(index)">确认订单</el-button>
+  				</div>
+					<div class="content" v-if="item.unfold">
+						<div class="text ite">
+							商家名称:{{item.businessName}}
+  					</div>
+						<div class="text ite">
+							菜品名称:{{item.dishList.dishName}}
+  					</div>
+						<div class="text ite">
+							菜品份数:{{item.dishList.count}}
+  					</div>
+						<div class="text ite">
+							该菜品总价:{{item.dishList.totalPrice}}
+  					</div>
+						<div class="text ite">
+							打包价格:{{item.packagePrice}}
+  					</div>
+						<div class="text ite">
+							配送费:{{item.postPrice}}
+  					</div>
+						<div class="text ite">
+							优惠价格:{{item.discountPrice}}
+  					</div>
+						<div class="text ite">
+							用户付款:{{item.payPrice}}
+  					</div>
+						<div class="text ite">
+							支付时间:{{item.payDateTime}}
+  					</div>
+					</div>
+  				
+				</el-card>
+		  </div>
+		</div> 
+		
     
   </div>
 </template>
 
 <script>
   export default {
+		data() {
+			return {
+				show:false,
+				outArr:[],
+				eatinArr:[]
+			}
+		},
+		created(){
+			//获取数据
+			this.getOutData()
+			this.getEatinArr()
+			// 在页面刷新之前把信息保存到sessionStorage
+			window.addEventListener('beforeunload',()=>{
+				sessionStorage.setItem('waerdfrteat',JSON.stringify(this.$store.state.eatOrder))
+				sessionStorage.setItem('ksiwpsusout',JSON.stringify(this.$store.state.outOrder))
+			})
+		},
+		methods:{
+			//获取外卖订单列表
+			getOutData(){
+				this.outArr = this.$store.state.outOrder
+			},
+			// 获取堂食订单列表
+			getEatinArr() {
+				this.eatinArr = this.$store.state.eatOrder
+			},
+			//确认堂食订单后数据消失
+			confirmOrder(index){
+				this.$store.commit('deleteEatOrder',index)
+				this.getEatinArr()
+			},
+			//确认外卖订单后数据消失
+			confirmOut(index) {
+				this.$store.commit('deleteOutOrder',index)
+				this.getOutData()
+			}
+
+		},
+		
   }
 </script>
 
-<style>
-  .mod-home {
+<style scoped>
+  .container {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
     line-height: 1.5;
+		width: 1600px;
+		height: 600px;
   }
+	.takeout, .eatin {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		overflow-y:scroll;
+		overflow-x: hidden;
+		width: 30%;
+		height:100%;
+		box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+	.takeout {
+		background: url(../../assets/img/out.png) no-repeat;
+		background-size: 100px 80px;
+		background-position: center;
+		left: 100px;
+	}
+	.eatin {
+		background: url(../../assets/img/eat.png) no-repeat;
+		background-size: 90px 60px;
+		background-position: center;
+		left: 200px;
+	}
+	.text {
+    font-size: 14px;
+  }
+
+  .ite {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+		position: relative;
+    width: 400px;
+		top:5%;
+		left: 10%;
+		margin-bottom: 10px;
+		
+  }
+	.span {
+		margin-left: 20px;
+	}
 </style>
 
 
-<!--更改  -->
-
-<!-- <template>
-    
-</template>
-
-<script>
-	export default {
-		components: { },
-    
-		data() {
-			return {
-				lockReconnect: false, //是否真正建立连接
-				timeout: 58 * 1000, //58秒一次心跳
-				timeoutObj: null, //心跳心跳倒计时
-				serverTimeoutObj: null, //心跳倒计时
-				timeoutnum: null, //断开 重连倒计时
-			};
-		},
-		created() {
-			this.initWebSocket();
-		},
-		destroyed() {
-			this.websock.close(); //离开路由之后断开websocket连接
-		},
-		methods: {
-      open1(messige) {
-        this.$notify({
-          title: '收到新的订单，请及时处理~',
-          message: messige,
-          type: 'success'
-        });
-      },
-			currentTime() {
-				setInterval(this.formatDate, 500);
-			},
-			initWebSocket() {
-				//初始化weosocket
-				const wsuri = "ws://localhost:8080/api/websocket/100";
-				this.websock = new WebSocket(wsuri);
-				// 客户端接收服务端数据时触发
-				this.websock.onmessage = this.websocketonmessage;
-				// 连接建立时触发
-				this.websock.onopen = this.websocketonopen;
-				// 通信发生错误时触发
-				this.websock.onerror = this.websocketonerror;
-				// 连接关闭时触发
-				this.websock.onclose = this.websocketclose;
-			},
-			// 连接建立时触发
-			websocketonopen() {
-				//开启心跳
-				this.start();
-			},
-			// 通信发生错误时触发
-			websocketonerror() {
-				console.log("websocket出现错误");
-				this.reconnect();
-			},
-			// 客户端接收服务端数据时触发
-			websocketonmessage(e) {
-        this.open1(e.data)
-        //收到服务器信息，心跳重置
-				this.reset();
-			},
-			websocketsend(Data) {
-				//数据发送
-				this.websock.send(Data);
-			},
-			// 连接关闭时触发
-			websocketclose(e) {
-				//关闭
-				// console.log("断开连接", e);
-				//重连
-				this.reconnect(0);
-			},
-			reconnect(time=5000) {
-				//重新连接
-				var that = this;
-				if (that.lockReconnect) {
-					return;
-				}
-				that.lockReconnect = true;
-				//没连接上会一直重连，设置延迟避免请求过多
-				that.timeoutnum && clearTimeout(that.timeoutnum);
-				that.timeoutnum = setTimeout(function () {
-					//新连接
-					that.initWebSocket();
-					that.lockReconnect = false;
-				}, time);
-			},
-			reset() {
-				//重置心跳
-				var that = this;
-				//清除时间
-				clearTimeout(that.timeoutObj);
-				clearTimeout(that.serverTimeoutObj);
-				//重启心跳
-				that.start();
-			},
-			start() {
-				//开启心跳
-				// console.log("开启心跳");
-				var self = this;
-				self.timeoutObj && clearTimeout(self.timeoutObj);
-				self.serverTimeoutObj && clearTimeout(self.serverTimeoutObj);
-        // console.log(self)
-				self.timeoutObj = setTimeout(function () {
-					//这里发送一个心跳，后端收到后，返回一个心跳消息，
-					if (self.readyState == 1) {
-						//如果连接正常
-						self.ws.send("heartCheck"); //这里可以自己跟后端约定
-					} else {
-						//否则重连
-						self.reconnect();
-					}
-					self.serverTimeoutObj = setTimeout(function () {
-						//超时关闭
-						self.ws.close();
-					}, self.timeout);
-				}, self.timeout);
-			},
-		},
-		mounted() {
-			this.currentTime();
-		},
-		// 销毁定时器
-		beforeDestroy() {
-			if (this.formatDate) {
-				clearInterval(this.formatDate); // 在Vue实例销毁前，清除时间定时器
-			}
-		},
-	};
-</script>
-
-<style>
-  .mod-home {
-    line-height: 1.5;
-  }
-</style> -->
 
 
 

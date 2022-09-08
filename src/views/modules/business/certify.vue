@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { isPhone,isMobile } from '@/utils/validate'
 import {region} from '@/assets/region'
 
@@ -141,7 +140,7 @@ export default {
       getList() {
         console.log("start")
         let address = "北京"
-        axios({
+        this.$axios({
           // async: false,
           // url:'https://apis.map.qq.com/ws/district/v1/search?output=jsonp&keyword='+address+'&key=LBKBZ-KERKF-E52JP-NWRGM-ENNMF-RXB25',
           url:"http://localhost:8005/api1/book/test111?id=1",
@@ -225,8 +224,8 @@ export default {
             fd.append('tel',this.certifyForm.tel)
             fd.append('address',this.certifyForm.address)
             fd.append('detailAddress',this.certifyForm.detailAddress)
-            axios({
-              url:'http://localhost:80/api/bash/business/auth',
+            this.$axios({
+              url:'/bash/business/auth',
               method:'post',
               headers:{'Content-Type':'application/json'}, //设置请求头格式为json
               data:fd 
@@ -257,8 +256,8 @@ export default {
       // 获取信息
       getData(){
         var _this = this
-        axios({
-          url:`http://localhost:80/api/bash/business/info/${_this.certifyForm.id}`,
+        this.$axios({
+          url:`/bash/business/info/${_this.certifyForm.id}`,
           method:'get',
         }).then(function(res){
            var obj = res.data

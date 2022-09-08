@@ -23,14 +23,13 @@
 
 <script>
 import echarts from 'echarts'
-import axios from 'axios'
 
 export default {
   name: 'visit',
   data() {
     return {
       chartVisit: null,
-      visitData:null,
+      visitData:[],
       saleTable: {
         businessId: this.$store.state.merchantId,
         startDate: '',
@@ -39,18 +38,14 @@ export default {
       },
     }
   },
-  mounted() {
-    this.initchartVisit()
-    this.getData()
-    window.addEventListener('resize',()=>{
-      this.chartVisit.resize()
+  mounted(){
+    this.$nextTick(() => {
+      this.initchartVisit()
+      this.getData()
     })
-    
   },
-  activated(){
-    if (this.chartVisit) {
-      this.chartVisit.resize()
-    }
+  activated() {
+    if (this.chartVisit) this.chartVisit.resize()
   },
   created(){
     let arr = this.getDefaultDate()
@@ -120,83 +115,83 @@ export default {
     console.log(this.saleTable.startDate,this.saleTable.endDate)
     var _this = this
     //获取服务器数据后更新数据
-    //  axios({
-    //   url: 'http://localhost:80/api/bash/businessvisit/data',
-    //   method: 'get',
-    //   params: {
-    //     'businessId': _this.saleTable.businessId,
-    //     'startDate': _this.saleTable.startDate,
-    //     'endDate': _this.saleTable.endDate
-    //   }
-    //  }).then(function(res){
-    //   if(res.data && res.data.code === 0) {
-    //     _this.visitData = res.data.visitData
-    //   }
-    //  }).catch(function(err){
-    //   console.log(err)
-    //  })
-    _this.visitData = [
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-01",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-02",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-03",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-04",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-05",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-06",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-07",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-08",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 1,
-            "dayTime": "2022-09-09",
-            "isDeleted": 0
-        },
-        {
-            "businessId": 10,
-            "visit": 2,
-            "dayTime": "2022-09-10",
-            "isDeleted": 0
-        }
-    ]
+     this.$axios({
+      url: '/bash/businessvisit/data',
+      method: 'post',
+      data: {
+        'businessId': _this.saleTable.businessId,
+        'startDate': _this.saleTable.startDate,
+        'endDate': _this.saleTable.endDate
+      }
+     }).then(function(res){
+      if(res.data && res.data.code === 0) {
+        _this.visitData = res.data.visitData
+      }
+     }).catch(function(err){
+      console.log(err)
+     })
+    // _this.visitData = [
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-01",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-02",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-03",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-04",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-05",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-06",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-07",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-08",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 1,
+    //         "dayTime": "2022-09-09",
+    //         "isDeleted": 0
+    //     },
+    //     {
+    //         "businessId": 10,
+    //         "visit": 2,
+    //         "dayTime": "2022-09-10",
+    //         "isDeleted": 0
+    //     }
+    // ]
     this.update()
     },
     // 处理图表数据

@@ -106,8 +106,6 @@
 
 import addOrUpdateMenu from './menu-add-update'
 import addOrUpdateDish from './dish-add-update'
-import axios from 'axios'
-
 
 export default {
   data() {
@@ -155,8 +153,8 @@ export default {
           type: 'warning'
         }).then(() => {
           var _this = this
-          axios({
-            url:'http://localhost:80/api/dish/category/delete',
+          this.$axios({
+            url:'/dish/category/delete',
             method:'post',
             data:{id}
           }).then(function(res){
@@ -192,8 +190,8 @@ export default {
           type: 'warning'
         }).then(() => {
           var _this = this
-          axios({
-            url:'http://localhost:80/api/dish/dish/delete',
+          this.$axios({
+            url:'/dish/dish/delete',
             method:'post',
             data:{id}
           }).then(function(res){
@@ -217,8 +215,8 @@ export default {
     //修改菜品状态
     refreshStatus(dishId,status){
       var _this = this
-      axios({
-        url:'http://localhost:80/api/dish/dish/changeStatus',
+      this.$axios({
+        url:'/dish/dish/changeStatus',
         method:'post',
         data:{
           'id':dishId,
@@ -236,8 +234,8 @@ export default {
     //获取数据列表
     getDataList() {   
       var _this = this
-      axios({
-        url:'http://localhost:80/api/dish/category/list',
+      this.$axios({
+        url:'/dish/category/list',
         method:'get',
         params:{'businessId':_this.$store.state.merchantId}
       }).then(function(res){
@@ -249,10 +247,7 @@ export default {
     //导出excel功能
     exportData() {
       var _this = this
-      axios({
-        url: `http://ip地址/api/dish/category/excelDownload/${_this.$store.state.merchantId}`,
-        method: 'get'
-      })
+      window.location.href = `http://localhost:70/api/dish/category/excelDownload/${_this.$store.state.merchantId}`
     }
 
   }

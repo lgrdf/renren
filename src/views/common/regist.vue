@@ -63,9 +63,7 @@
 
 <script>
   import { isEmail, isMobile } from '@/utils/validate'
-  import axios from 'axios'
  
-
   export default {
     data () {
       // 定义邮箱验证码规则
@@ -212,8 +210,8 @@
       //获取邮箱验证码
       getEmailVercode(email) {
         var _this = this
-        axios({
-          url: `http://localhost:80/api/bash/business/sendEmail/${email}`,
+        this.$axios({
+          url: `/bash/business/sendEmail/${email}`,
           method: 'get',
         }).then(function(res){
           if(res.data && res.data.code === 0){
@@ -233,8 +231,8 @@
       //获取手机验证码
       getTelVercode(mobile) {
         var _this = this
-        axios({
-          url: `http://localhost:80/api/send/${mobile}`,
+        this.$axios({
+          url: `/send/${mobile}`,
           method: 'get',
         }).then(function(res){
           if(res.data && res.data.code === 0){

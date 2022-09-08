@@ -60,4 +60,21 @@ export default {
     flex-wrap: wrap;
   }
 
+  .container .bar {
+    width: 50%;
+    height: 50%;
+  }
+  .container .business {
+    width: 50%;
+    height: 50%;
+  }
+  .container .sor {
+    width: 50%;
+    height: 50%;
+  }
+  .container .visit {
+    width: 50%;
+    height: 50%;
+  }
+
 </style>

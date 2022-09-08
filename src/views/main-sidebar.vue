@@ -205,6 +205,34 @@ export default {
     websocketonmessage(e) {
       console.log(e)
       console.log(e.data)
+      // const orderData = {
+      //   kind: '堂食',
+      //   businessName: 'tyt',
+      //   dishList:{
+      //     dishName: '炸鸡',
+      //     count: 1,
+      //     totalPrice: 24,
+      //   },
+      //   postPrice: 2,
+      //   packagePrice: 1,
+      //   discountPrice: 5.2,
+      //   payPrice: 30,
+      //   payDateTime: '2022-10-30 10:20:03'
+      // }
+      // orderData['unfold'] = false
+      const orderData = JSON.parse(e.data.orderData)
+      // 接收订单数据(改变外卖和堂食数组)
+      this.$store.commit('getOrderData',orderData)
+      if(this.$store.state.orderdata.kind === "堂食") {
+        this.$store.commit('getEatArr',orderData)
+        // console.log('堂食',this.$store.state.eatOrder)
+        // console.log(sessionStorage.getItem('waerdfrteat'))
+      }
+      if(this.$store.state.orderdata.kind === "外卖"){
+        this.$store.commit('getOutArr',orderData)
+        // console.log('外卖',this.$store.state.outOrder)
+        // console.log(sessionStorage.getItem('ksiwpsusout'))
+      }
       if (e.data.indexOf("订单") != -1) {
         this.businessMsg(e.data);
         const promise = this.$refs.audioTip.play();

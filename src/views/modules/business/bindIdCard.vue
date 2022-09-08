@@ -30,8 +30,6 @@
 </template>
 
 <script>
-
-import axios from 'axios'
 import newObj from '@/assets/bank.js'
 
 export default {
@@ -106,8 +104,8 @@ export default {
     getVercode(phone) {
       var _this = this
       this.reset = false
-      axios({
-        url: `http://localhost:80/api/send/${phone}`,
+      this.$axios({
+        url: `/send/${phone}`,
         method: 'get',
       }).then(function(res){
         if(res.data && res.data.code === 0){
@@ -141,8 +139,8 @@ export default {
       }else {
         var _this = this
         // console.log(this.cardForm.bank,this.cardForm.idNumber)
-        axios({
-          url: 'http://localhost:80/api/account/businessaccount/save',
+        this.$axios({
+          url: '/account/businessaccount/save',
           method: 'post',
           data:{
             'businessId': _this.businessId,
@@ -155,7 +153,7 @@ export default {
               message: '绑定银行卡成功',
               type: 'success',
               onClose:()=>{
-                this.resetForm(formName)
+                _this.resetForm(formName)
               }
             })
           }
@@ -168,8 +166,8 @@ export default {
   activated() {
     var _this = this
     //一进入页面获取手机号
-    axios({
-      url: `http://localhost:80/api/bash/business/info/${_this.businessId}`,
+    this.$axios({
+      url: `/bash/business/info/${_this.businessId}`,
       method: 'get'
     }).then(function(res) {
       _this.phone = res.data.business.userTel

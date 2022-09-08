@@ -67,8 +67,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 
 export default {
   data() {
@@ -159,7 +157,7 @@ export default {
             formData.append('description',this.baseForm.description)
             formData.append('startPrice',this.baseForm.startPrice)
             formData.append('shippingPrice',this.baseForm.shoppingPrice)
-            axios({
+            this.$axios({
                 method: "post",
                 url:"/bash/business/edit",
                 headers:{'Content-Type':'application/json'}, //设置请求头格式为json
@@ -189,8 +187,8 @@ export default {
       // 获取信息
       getData(){
         var _this = this
-        axios({
-          url:`http://localhost:80/api/bash/business/info/${_this.baseForm.id}`,
+        this.$axios({
+          url:`/bash/business/info/${_this.baseForm.id}`,
           method:'get',
         }).then(function(res){
            var obj = res.data

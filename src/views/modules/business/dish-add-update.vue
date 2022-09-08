@@ -22,7 +22,6 @@
         style="width:400px"></el-input>
       </el-form-item>
       <!-- 菜品图片 -->
-      <!-- 身份证照片 -->
       <el-form-item label="菜品图片" required>
         <el-upload
           action="#"
@@ -57,7 +56,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name:'addOrUpdateDish',
@@ -121,8 +119,8 @@ export default {
             fd.append('name',this.dishForm.name)
             fd.append('description',this.dishForm.description)
             fd.append('price',this.dishForm.price)
-            axios({
-              url:`http://localhost:80/api/dish/dish/${!_this.dishForm.id ? 'save' : 'update'}`,
+            this.$axios({
+              url:`/dish/dish/${!_this.dishForm.id ? 'save' : 'update'}`,
               method:'post',
               headers:{'Content-Type':'application/json'}, //设置请求头格式为json
               data:fd

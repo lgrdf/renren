@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name:'addOrUpdateMenu',
@@ -69,8 +68,8 @@ export default {
       this.$refs['category'].validate((valid) => {
           if (valid) {
             var _this = this
-            axios({
-              url:`http://localhost:80/api/dish/category/${!_this.categoryForm.id ? 'save' : 'update'}`,
+            this.$axios({
+              url:`/dish/category/${!_this.categoryForm.id ? 'save' : 'update'}`,
               method:'post',
               data:{
                 'id':_this.categoryForm.id || undefined,
