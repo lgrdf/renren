@@ -4,8 +4,8 @@
 ;(function () {
   window.SITE_CONFIG = {};  
   // api接口请求地址
-  window.SITE_CONFIG['baseUrl'] = 'http://localhost:8080/renren-fast';
-  // window.SITE_CONFIG['baseUrl'] = 'http://localhost:70/api';
+  // window.SITE_CONFIG['baseUrl'] = 'http://localhost:8080/renren-fast';
+  window.SITE_CONFIG['baseUrl'] = 'http://localhost:70/api';
 
   // cdn地址 = 域名 + 版本号
   window.SITE_CONFIG['domain']  = './'; // 域名

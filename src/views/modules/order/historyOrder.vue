@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <!-- 订单号 -->
-        <el-form-item label="订单号" required>
+        <el-form-item label="订单号">
           <el-input v-model="searchForm.orderNum" placeholder="请输入订单号" style="width:200px"></el-input>
         </el-form-item>
         <!-- 下单时间 -->
@@ -41,8 +41,8 @@
       <el-table
         :data="takewayData"
         border
-        height=500px
-        style="width: 95%"
+        height="500px"
+        style="width: 100%"
         class="tb">
         <el-table-column
           prop="orderNumber"
@@ -77,7 +77,6 @@
         <el-table-column
           prop="businessAmount"
           label="商家实收金额"
-          width="220"
           header-align="center"
           align="center">
         </el-table-column>
@@ -106,17 +105,17 @@ export default {
     return {
       businessId: this.$store.state.merchantId,
       searchForm:{
-        kind: '',
+        kind: 1,
         orderNum:'',
         startTime:'',
         endTime:'',
         time:''
       },
       options: [{
-          value: '1',
+          value: 1,
           label: '外卖'
         }, {
-          value: '0',
+          value: 0,
           label: '堂食'
       }],
       takewayData:[],
@@ -128,7 +127,10 @@ export default {
     }
   },
   created(){
-    this.requestData()
+    this.searchForm.time = this.getDefaultDate()
+    this.searchForm.startTime = this.searchForm.time[0]
+    this.searchForm.endTime = this.searchForm.time[1]
+    this.search()
   },
   methods:{
     dateFormat(picker) {
@@ -139,6 +141,7 @@ export default {
       console.log(`每页 ${val} 条`)
       this.pageSize = val
       this.currPage = 1
+      this.search()
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
@@ -149,63 +152,46 @@ export default {
     search() {
       console.log(this.searchForm)
       var _this = this
-      this.$axios({
-        url:'/order/data/orderData',
-        method:'get',
-        params:{
-          'page':_this.currPage,
-          'limit':_this.pageSize,
-          'businessId':_this.businessId,
-          'kind':_this.searchForm.kind,
-          'orderNumber':_this.searchForm.orderNum,
-          'startTime':_this.searchForm.startTime,
-          'endTime': _this.searchForm.endTime
-        }
-      }).then(function(res){
-        if(res.data && res.data.code === 0){
-          let obj  = res.data.takewayData
-          _this.takewayData = obj.list
-          _this.totalCount = obj.totalCount// 总条数
-          _this.currPage = obj.currPage// 当前页码
-          _this.totalPage = obj.totalPage//总页数
-          _this.pageSize = obj.pageSize// 每页的数据条数
-        }
-      }).catch(function(err){
-        console.log(err)
-      })
-    },
-    // 进入时获取数据
-    requestData(){
-      var _this = this
-      this.$axios({
-        url:'/order/data/orderData',
-        method:'get',
-        params:{
-          'page': 1,
-          'limit': 10,
-          'businessId': _this.businessId,
-          'kind': 1,
-          'orderNumber': '',
-          'startTime': _this.getDefaultDate()[1],
-          'endTime': _this.getDefaultDate()[0]
-        }
-      }).then(function(res){
-        if(res.data && res.data.code === 0){
-          let obj  = res.data.takewayData
-          _this.takewayData = obj.list
-          _this.totalCount = obj.totalCount// 总条数
-          _this.currPage = obj.currPage// 当前页码
-          _this.totalPage = obj.totalPage//总页数
-          _this.pageSize = obj.pageSize// 每页的数据条数
-        }
-      })
-    
+      if(this.searchForm.kind && this.searchForm.time){
+          this.$axios({
+          url:'/order/data/orderData',
+          method:'get',
+          params:{
+            'page':_this.currPage,
+            'limit':_this.pageSize,
+            'businessId':_this.businessId,
+            'kind':_this.searchForm.kind,
+            'orderNumber':_this.searchForm.orderNum,
+            'startTime':_this.searchForm.startTime,
+            'endTime': _this.searchForm.endTime
+          }
+          }).then(function(res){
+            if(res.data && res.data.code === 0){
+              let obj  = res.data.takewayData
+              _this.takewayData = obj.list
+              _this.totalCount = obj.totalCount// 总条数
+              _this.currPage = obj.currPage// 当前页码
+              _this.totalPage = obj.totalPage//总页数
+              _this.pageSize = obj.pageSize// 每页的数据条数
+            }
+          }).catch(function(err){
+            console.log(err)
+          })    
+      }else{
+        this.$message({
+          message:'订单类型和下单时间不能为空!',
+          type:'warning',
+          duration:1500
+        })
+      }
+     
+
     },
     //获取默认时间
     getDefaultDate(){
       const today = new Date()
       const zeroToday  = new Date(new Date().setHours(0,0,0,0))
-      return [this.formatDate(today),this.formatDate(zeroToday)]
+      return [this.formatDate(zeroToday),this.formatDate(today)]
     },
     //格式化时间
     formatDate(date) {
