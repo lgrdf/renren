@@ -181,7 +181,7 @@ export default {
     },
     initWebSocket() {
       //初始化weosocket
-      const wsuri = "ws://localhost:9000/api/websocket/100";
+      const wsuri = `ws://localhost:8032/api/websocket/business/${this.$store.state.merchantId}`;
       this.websock = new WebSocket(wsuri);
       // 客户端接收服务端数据时触发
       this.websock.onmessage = this.websocketonmessage;
@@ -202,62 +202,42 @@ export default {
       console.log("websocket出现错误");
       this.reconnect();
     },
-
-    // 客户端接收服务端数据时触发
-    websocketonmessage(e) {
-      console.log(e)
-      console.log(e.data)
-      // const orderData = {
-      //   kind: '外卖',
-      //   businessName: 'tyt',
-      //   dishList:[{
-      //     dishName: '炸鸡',
-      //     count: 1,
-      //     totalPrice: 24,
-      //   },
-      //   {
-      //     dishName: '薯条',
-      //     count: 3,
-      //     totalPrice: 12,
-      //   }],
-      //   postPrice: 2,
-      //   packagePrice: 1,
-      //   discountPrice: 5.2,
-      //   payPrice: 30,
-      //   payDateTime: '2022-10-30 10:20:03'
-      // }
-    
+    // 订单发送消息
+    orderMsg(e) {
       const orderData = JSON.parse(e.data)
       orderData['uuid'] = getUUID()
       // 接收订单数据(改变外卖和堂食数组)
-      this.$store.commit('getOrderData',orderData)
-      if(this.$store.state.orderdata.kind === "堂食") {
-        this.$store.commit('getEatArr',orderData)
-        console.log('堂食',this.$store.state.eatOrder)
-        // console.log(sessionStorage.getItem('waerdfrteat'))
+      this.$store.commit('getOrderData', orderData)
+      if (this.$store.state.orderdata.kind === "堂食") {
+        this.$store.commit('getEatArr', orderData)
+        console.log('堂食', this.$store.state.eatOrder)
       }
-      if(this.$store.state.orderdata.kind === "外卖"){
-        this.$store.commit('getOutArr',orderData)
-        console.log('外卖',this.$store.state.outOrder)
-        // console.log(sessionStorage.getItem('ksiwpsusout'))
+      if (this.$store.state.orderdata.kind === "外卖") {
+        this.$store.commit('getOutArr', orderData)
+        console.log('外卖', this.$store.state.outOrder)
       }
-      if (e.data.indexOf("订单") != -1) {
-        this.businessMsg(e.data);
-        const promise = this.$refs.audioTip.play();
-        if (promise !== undefined) {
-          promise
-            .then(() => {
-              this.$refs.audioTip.play();
-            })
-            .catch(() => {
-              console.log("--播放失败--");
-              //弹框提示，获取点击事件，重新播放
-            });
-        }
+      this.businessMsg(e.data);
+      const promise = this.$refs.audioTip.play();
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            this.$refs.audioTip.play();
+          })
+          .catch(() => {
+            console.log("--播放失败--");
+            //弹框提示，获取点击事件，重新播放
+          });
+      }
+    },
+    // 客户端接收服务端数据时触发
+    websocketonmessage(e) {
+      // console.log(e)
+      // console.log(e.data)
+      if (e.data.indexOf("dishList") != -1 && e.data.indexOf("payDateTime") != -1) {
+        this.orderMsg(e);
       } else {
         this.adminMsg(e.data);
       }
-
       //收到服务器信息，心跳重置
       this.reset();
     },
