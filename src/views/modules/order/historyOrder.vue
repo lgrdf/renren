@@ -152,7 +152,7 @@ export default {
     search() {
       console.log(this.searchForm)
       var _this = this
-      if(this.searchForm.kind && this.searchForm.time){
+      if(this.searchForm.kind!=null && this.searchForm.time){
           this.$axios({
           url:'/order/data/orderData',
           method:'get',

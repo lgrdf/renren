@@ -26,7 +26,8 @@ if (process.env.NODE_ENV !== 'production') {
 Vue.prototype.$http = httpRequest // ajax请求方法
 Vue.prototype.isAuth = isAuth     // 权限方法 
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = 'http://localhost:70/api'
+axios.defaults.baseURL = 'https://53r23232p6.goho.co/api'
+// http://localhost:70/api
 
 // 保存整站vuex本地储存初始状态
 window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
